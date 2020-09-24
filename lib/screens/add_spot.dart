@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spot/providers/spot_places.dart';
 import 'package:spot/widgets/image_input.dart';
+import 'package:spot/widgets/location_input.dart';
 
 class AddSpotScreen extends StatefulWidget {
   static const routeName = '/add-place';
@@ -64,6 +65,10 @@ class _AddSpotScreenState extends State<AddSpotScreen> {
                     ImageInput(
                       onSelectImage: _selectImage,
                     ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    LocationInput(),
                   ],
                 ),
               ),

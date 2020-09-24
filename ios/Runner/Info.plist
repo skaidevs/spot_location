@@ -8,6 +8,10 @@
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
+	<key>CFBundleDisplayName</key>
+	<string></string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -24,6 +28,10 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Permit to take a picture!</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+    <string>Permit to get your location</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>Allow to get your location</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

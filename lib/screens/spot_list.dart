@@ -24,27 +24,38 @@ class SpotListScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Consumer<SpotPlacesNotifier>(
-        child: Center(
-          child: const Text('You got Nothing Spotted!'),
-        ),
-        builder: (context, spot, child) => spot.items.length <= 0
-            ? child
-            : ListView.builder(
-                itemCount: spot.items.length,
-                itemBuilder: (context, index) => ListTile(
-                  leading: CircleAvatar(
-                    backgroundImage: FileImage(
-                      spot.items[index].image,
+      body: FutureBuilder(
+        future: Provider.of<SpotPlacesNotifier>(
+          context,
+          listen: false,
+        ).fetchAndSetSpots(),
+        builder: (context, snapshot) =>
+            snapshot.connectionState == ConnectionState.waiting
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : Consumer<SpotPlacesNotifier>(
+                    child: Center(
+                      child: const Text('You got Nothing Spotted!'),
                     ),
+                    builder: (context, spot, child) => spot.items.length <= 0
+                        ? child
+                        : ListView.builder(
+                            itemCount: spot.items.length,
+                            itemBuilder: (context, index) => ListTile(
+                              leading: CircleAvatar(
+                                backgroundImage: FileImage(
+                                  spot.items[index].image,
+                                ),
+                              ),
+                              title: Text(spot.items[index].title),
+                              onTap: () {
+                                //Go to Detail page
+                                print('Go to Detail Page');
+                              },
+                            ),
+                          ),
                   ),
-                  title: Text(spot.items[index].title),
-                  onTap: () {
-                    //Go to Detail page
-                    print('Go to Detail Page');
-                  },
-                ),
-              ),
       ),
     );
   }
