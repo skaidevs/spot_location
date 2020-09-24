@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:spot/providers/spot_places.dart';
 import 'package:spot/widgets/image_input.dart';
 
 class AddSpotScreen extends StatefulWidget {
@@ -9,6 +13,28 @@ class AddSpotScreen extends StatefulWidget {
 
 class _AddSpotScreenState extends State<AddSpotScreen> {
   final _titleController = TextEditingController();
+
+  File _pickedImage;
+  void _selectImage(File pickedImage) {
+    _pickedImage = pickedImage;
+  }
+
+  void _saveSpot() {
+    if (_titleController.text.isEmpty || _pickedImage == null) {
+      // We could validate more and show a widget.. don't you think we should?
+      return;
+    }
+
+    Provider.of<SpotPlacesNotifier>(
+      context,
+      listen: false,
+    ).addSpot(
+      pickedImage: _pickedImage,
+      pickedTitle: _titleController.text,
+    );
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +61,9 @@ class _AddSpotScreenState extends State<AddSpotScreen> {
                     SizedBox(
                       height: 10,
                     ),
-                    ImageInput(),
+                    ImageInput(
+                      onSelectImage: _selectImage,
+                    ),
                   ],
                 ),
               ),
@@ -49,7 +77,7 @@ class _AddSpotScreenState extends State<AddSpotScreen> {
             icon: Icon(
               Icons.add,
             ),
-            onPressed: () {},
+            onPressed: _saveSpot,
           ),
         ],
       ),
