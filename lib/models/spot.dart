@@ -25,7 +25,7 @@ class SpotLocation {
   final double latitude;
   final String address;
 
-  SpotLocation({
+  const SpotLocation({
     @required this.longitude,
     @required this.latitude,
     this.address,
