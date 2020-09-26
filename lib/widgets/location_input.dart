@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:spot/helpers/location_helper.dart';
 import 'package:spot/screens/map.dart';
 
 class LocationInput extends StatefulWidget {
+  final Function onSelectSpot;
+
+  LocationInput({this.onSelectSpot});
+
   @override
   _LocationInputState createState() => _LocationInputState();
 }
@@ -11,13 +16,10 @@ class LocationInput extends StatefulWidget {
 class _LocationInputState extends State<LocationInput> {
   String _previewImage;
 
-  Future<void> _getCurrentUserLocation() async {
-    final _locationData = await Location().getLocation();
-    print('Longitude: ${_locationData.longitude}');
-    print('Latitude: ${_locationData.latitude}');
+  void _showPreview({double lat, double lng}) {
     final _staticMapUrlImage = LocationHelper.generateLocationPreviewImage(
-      latitude: _locationData.latitude,
-      longitude: _locationData.longitude,
+      latitude: lat,
+      longitude: lng,
     );
 
     setState(() {
@@ -25,8 +27,28 @@ class _LocationInputState extends State<LocationInput> {
     });
   }
 
+  Future<void> _getCurrentUserLocation() async {
+    try {
+      final _locationData = await Location().getLocation();
+      print('Longitude: ${_locationData.longitude}');
+      print('Latitude: ${_locationData.latitude}');
+
+      _showPreview(
+        lat: _locationData.latitude,
+        lng: _locationData.longitude,
+      );
+      widget.onSelectSpot(
+        _locationData.latitude,
+        _locationData.longitude,
+      );
+    } catch (e) {
+      print('GetCurrent location Error: ${e.toString()}');
+      return;
+    }
+  }
+
   Future<void> _mapLocation() async {
-    final _mappedLocation = await Navigator.of(context).push(
+    final _mappedLocation = await Navigator.of(context).push<LatLng>(
       MaterialPageRoute(
         fullscreenDialog: true,
         builder: (context) => MapScreen(
@@ -37,6 +59,16 @@ class _LocationInputState extends State<LocationInput> {
     if (_mappedLocation == null) {
       return;
     }
+    print('Mapped Location: ${_mappedLocation.latitude}');
+
+    _showPreview(
+      lat: _mappedLocation.latitude,
+      lng: _mappedLocation.longitude,
+    );
+    widget.onSelectSpot(
+      _mappedLocation.latitude,
+      _mappedLocation.longitude,
+    );
   }
 
   @override

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spot/providers/spot_places.dart';
 import 'package:spot/screens/add_spot.dart';
+import 'package:spot/screens/spot_details.dart';
 import 'package:spot/screens/spot_list.dart';
 
 void main() {
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
         home: SpotListScreen(),
         routes: {
           AddSpotScreen.routeName: (ctx) => AddSpotScreen(),
+          SpotDetail.routeName: (ctx) => SpotDetail(),
         },
       ),
     );

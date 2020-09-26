@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spot/providers/spot_places.dart';
 import 'package:spot/screens/add_spot.dart';
+import 'package:spot/screens/spot_details.dart';
 
 class SpotListScreen extends StatelessWidget {
   @override
@@ -48,10 +49,16 @@ class SpotListScreen extends StatelessWidget {
                                   spot.items[index].image,
                                 ),
                               ),
+                              subtitle: Text(
+                                spot.items[index].location.address,
+                              ),
                               title: Text(spot.items[index].title),
                               onTap: () {
                                 //Go to Detail page
-                                print('Go to Detail Page');
+                                Navigator.of(context).pushNamed(
+                                  SpotDetail.routeName,
+                                  arguments: spot.items[index].id,
+                                );
                               },
                             ),
                           ),
