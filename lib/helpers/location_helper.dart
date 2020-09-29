@@ -14,6 +14,7 @@ class LocationHelper {
     return _location;
   }
 
+
   static Future<String> getSpotAddress(double lat, double lng) async {
     final _locationAddress =
         'https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lng&key=$GOOGLE_API_KEY';
